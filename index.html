@@ -1,35 +1,34 @@
 <html>
 
 <head>
-	
 	<script asyn src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js'></script>
 	<script asyn src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
 	<script asyn src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js'>
 	</script>
-</head>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> </head>
 
 <body>
 	<div class="container">
 		<div class="options-box">
-			
-				<!--<select placeholder="Search…" type="search" data-bind="options: locations,
+			<!--<select placeholder="Search…" type="search" data-bind="options: locations,
                    //    optionsText: 'title',
 					   optionsValue:'title',
                        value: selectedChoice,
                        optionsCaption: 'Choose...', event:{change:textSearchPlaces}, valueUpdate:'keyup' " autocomplete="off" size="15"></select>-->
-				<!--value: query, valueUpdate: 'keyup'" autocomplete="off"-->
-				<div class="ui-widget">
+			<!--value: query, valueUpdate: 'keyup'" autocomplete="off"-->
+			<!--,event: {keypress: enterSearch, select:textSearchPlaces}-->
+			<div class="ui-widget">
 				<label>Search for Destination:</label>
-				<input id="text" data-bind="valueUpdate:'keypress', click:enterSearch,event: {keypress: enterSearch, select:textSearchPlaces}" autocomplete="off"> 
-				
-				</div>
+				<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}"> </div>
 			<div id="map" data-bind="text:map"></div>
 		</div>
 		<script>
-			$(function () {				
-
+			$(function () {
 				function dataSource(request, response) {
+				
 					function hasMatch(s) {
+						
+						console.log('test');
 						return s.toString().toLowerCase().indexOf(request.term.toLowerCase()) !== -1;
 					};
 					var i, l, obj, matches = [];
@@ -44,18 +43,16 @@
 						}
 					}
 					response(matches);
+					
+				//	console.log(matches);
+					
 				}
 				$(document).ready(function () {
 					$("#text").autocomplete({
-						source: dataSource,
-				
-						focus: function (event, ui) {
-							$("#text").val(ui.item.title);
-							//$(this).data("autocomplete").search($(this).val());
-							//$(this).data('ui-autocomplete').search($(this).val());
+						source: dataSource
+						 
+						, minLength: 0
 							
-							return false;
-						}
 						, select: function (event, ui) {
 							$("#text").val(ui.item.title);
 							/*$("#project-id").val(ui.item.value); // is this needed?
@@ -66,18 +63,23 @@
 							textSearchPlaces();
 							return false;
 						}
-					})
-					.data( "ui-autocomplete" )._renderItem = function( ul,item ) {
-        				return $( "<p>" )
-					.append( "<a style='font-size:70% ;margin-left:0; width:70%'>" + item.title + "<br><span style='font-size:90%;display:table;min-width:50%;width:70%;margin:0'>Desc: " + item.detail + "</span>"+"</a>" )
-																		
-                   .appendTo( ul );
-						
-                    };
-					
-					
+					}).data("ui-autocomplete")._renderItem = function (ul, item) {
+						return $("<li>").append("<a style='font-size:100% ;margin-left:0; width:70%'>" + item.title + "<br><a style='font-size:80%;display:table;min-width:50%;width:70%;margin:0'>Desc:" + item.detail + "</a>" + "</a>").appendTo(ul);
+					};
 					/*$("#text").focus(function () {
-    				//$(this).ui-autocomplete("search", "");
+    				/ $(this).trigger('keydown.autocomplete');
+			         		
+					});*/
+					/*$('#text').click(function () {
+					//	$('#autocomplete').trigger("focus"); //or "click", at least one should work
+						$(this).autocomplete('search', $(this).val());
+					});*/
+					/*$("#text").focus(function () {
+						//$(this).trigger('keydown.autocomplete');
+						//$(this).autocomplete('search', $(this).val());
+					//	console.log($(this).value);
+						
+					//	$(this).data('ui-autocomplete').search($(this).val());
 					});*/
 				});
 			});
@@ -89,68 +91,60 @@
 						, location: {
 							lat: -36.8737632
 							, lng: 174.7936569
-						},
-						detail:""
+						}
+						, detail: "Eat Fresh"
 					}
-					, {
-						title: 'St. Helier'
-						, location: {
-							lat: -36.8582446
-							, lng: 174.8369475
-						},
-						detail:''
-					}
+					
 					, {
 						title: 'Auckland Town Hall'
 						, location: {
 							lat: -36.8530296
 							, lng: 174.7630188
-						},
-						detail:'A historic building  on Queen Street'
+						}
+						, detail: 'A historic building  on Queen Street'
 					}
 					, {
-						title: 'Auckland University of Technology (South Campus)'
+						title: 'Auckland University of Technology'
 						, location: {
 							lat: -36.9196601
 							, lng: 174.7545022
-						},
-						detail:''
+						}
+						, detail: 'The University for The Changing World'
 					}
 					, {
 						title: 'Central City Library'
 						, location: {
 							lat: -36.851759
 							, lng: 174.7632119
-						},
-						detail:''
+						}
+						, detail: 'Public Library'
 					}
 					, {
 						title: 'Q Theatre'
 						, location: {
 							lat: -36.8533432
 							, lng: 174.7610524
-						},
-						detail:''
+						}
+						, detail: 'Auckland newest space for the performing arts'
 					}
 					, {
 						title: 'The Civic'
 						, location: {
 							lat: -36.851036
 							, lng: 174.7617099
-						},
-						detail:''
+						}
+						, detail: 'First opened on 20 December 1929'
 					}
         ]);
 				this.selectedChoice = ko.observable();
 				this.textSearchPlaces = ko.observable();
 				this.enterSearch = function (d, e) {
-					if (e.keyCode == 13 || e.keyCode == 40) {
+					e.keyCode === 13&&
 						this.textSearchPlaces();
-					}
+					
 					//e.keyCode === 40 && this.textSearchPlaces();							
 					return true;
 				};
-				
 			}
 
 			function initMap() {
@@ -159,26 +153,28 @@
 						lat: -36.85293
 						, lng: 174.7611372
 					}
-					, zoom: 14
+					, zoom: 13
 					, mapTypeControl: false
 				});
 				var markers = [];
 				var bounds = new google.maps.LatLngBounds();
 				var largeInfowindow = new google.maps.InfoWindow();
-				var addMarker = function (position, title, map) {
+				var addMarker = function (position, title, map,detail) {
 					return new google.maps.Marker({
 						position: position
 						, title: title
+						,detail:detail
 						, map: map
+						
 					});
 				}
 				for (i = 0; i < this.locations().length; i++) {
 					var position = this.locations()[i].location;
 					var title = this.locations()[i].title;
-					var marker = addMarker(position, title, map);
+					var detail=this.locations()[i].detail;
+					var marker = addMarker(position, title, map,detail);
 					markers.push(marker);
 					bounds.extend(marker.position);
-					
 					marker.addListener('click', function () {
 						populateInfoWindow(this, largeInfowindow);
 					});
@@ -210,7 +206,7 @@
 							if (status == google.maps.StreetViewStatus.OK) {
 								var nearStreetViewLocation = data.location.latLng;
 								var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-								infowindow.setContent('<div>' + marker.title + '</div><div id="pano"></div>');
+								infowindow.setContent('<div>' + marker.title + '</div><div>'+marker.detail+'</div><div id="pano"></div>');
 								var panoramaOptions = {
 									position: nearStreetViewLocation
 									, pov: {
@@ -241,13 +237,14 @@
 						//	marker2.setMap('null');
 						//InfoWindow.close();
 						/*if (locations()[i].title == selectedChoice()) {*/
-						if (locations()[i].title == selectedChoice) {
+						if (locations()[i].title.toLowerCase() == selectedChoice.toLowerCase()) {
 							var position = locations()[i].location;
 							var title = locations()[i].title;
+							var detail=locations()[i].detail;
 							console.log("Positon:" + position);
 							console.log("title" + title);
 							//createMarkersForPlaces(locations()[i]);
-							marker2 = addMarker(position, title, map);
+							marker2 = addMarker(position, title, map,detail);
 							//populateInfoWindow(this, largeInfowindow);
 							bounds.extend(marker2.position);
 							/*}, new google.maps.LatLngBounds());*/
@@ -255,7 +252,7 @@
 							map.setCenter(bounds.getCenter());
 							map.fitBounds(bounds);
 							var listener = google.maps.event.addListener(map, "idle", function () {
-								if (map.getZoom() > 14) map.setZoom(14);
+								if (map.getZoom() > 15) map.setZoom(16);
 								google.maps.event.removeListener(listener);
 							});
 							//alert('test');
@@ -317,8 +314,8 @@
 	
 	input {
 		font-size: 12px;
-		width:100%;
-		height:50px;
+		width: 100%;
+		height: 50px;
 	}
 	
 	h1 {
@@ -342,7 +339,7 @@
 	
 	#map {
 		bottom: 0px;
-		width:100%;
+		width: 100%;
 		height: 100%;
 		left: 362px;
 		position: absolute;
