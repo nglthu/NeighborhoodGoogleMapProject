@@ -5,7 +5,7 @@
 	<script asyn src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
 	<script asyn src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js'>
 	</script>
-<<<<<<< HEAD
+
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
     <!--<link rel="stylesheet"ui-lightness href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/smoothness/jquery-ui.css.">-->
 	</head>
@@ -16,7 +16,7 @@
 					<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> 
 			</div>
 				
-			<div id="map" class="map"></div>
+			<div id="map" ></div>
 			</div>
 			<script>
 				$(function () {
@@ -34,34 +34,9 @@
 							if (hasMatch(obj.title)) {
 								matches.push(obj);
 							}
-=======
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> </head>
 
-<body>
-	<div class="container">
-		<div class="options-box">
-			<div class="ui-widget">
-				<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> </div>
-			<div id="map" data-bind="text:map"></div>
-		</div>
-		<script>
-			$(function () {
-				function dataSource(request, response) {
-					function hasMatch(s) {
-						return s.toString().toLowerCase().indexOf(request.term.toLowerCase()) !== -1;
-					};
-					var i, l, obj, matches = [];
-					if (request.term === "") {
-						response(locations());
-						return;
-					}
-					for (i = 0, l = locations().length; i < l; i++) {
-						obj = locations()[i];
-						if (hasMatch(obj.title)) {
-							matches.push(obj);
->>>>>>> parent of 5586a0b... CSS
 						}
-					}
+					
 					response(matches);
 				}
 				$(document).ready(function () {
@@ -320,20 +295,19 @@
 		font-size: 12px;
 		width: 100%;
 		height: 50px;
+
 	}
-<<<<<<< HEAD
+
 		
-	.map {
+	#map {
 		bottom: 0px;
-<<<<<<< HEAD
+
 		width: 84%;
-=======
-		width: 74%;
+
 		height: 100%;
->>>>>>> parent of 1ba677e... edit searchbox
-		
+
 		position: relative;
-=======
+	}
 	
 	h1 {
 		color: #525454;
@@ -342,10 +316,6 @@
 		text-align: center;
 	}
 	
-	#hide-listings,
-	#show-listings {
-		width: 48%;
-	}
 	
 	hr {
 		background: #D0D7D9;
@@ -360,7 +330,7 @@
 		height: 100%;
 		left: 362px;
 		position: absolute;
->>>>>>> parent of 5586a0b... CSS
+
 		right: 0px;
 	}
 	
@@ -372,15 +342,9 @@
 		line-height: 35px;
 		padding: 10px 10px 30px 10px;
 		text-align: left;
-<<<<<<< HEAD
-<<<<<<< HEAD
-		width: 15%;
-=======
-		width: 25%;
->>>>>>> parent of 1ba677e... edit searchbox
-=======
+
 		width: 340px;
->>>>>>> parent of 5586a0b... CSS
+
 	}
 	
 	#pano {
