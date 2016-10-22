@@ -6,7 +6,7 @@
 	
 	<script asyn src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js'>
 	</script>
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/ui-lightness/jquery-ui.css"> 
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
     <!--<link rel="stylesheet"ui-lightness href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/smoothness/jquery-ui.css.">-->
 	</head>
 	<body>
@@ -47,7 +47,7 @@
 								return false;
 							}
 						}).data("ui-autocomplete")._renderItem = function (ul, item) {
-							return $("<li>").append("<a style='font-size:100%'>" + item.title+ "<br></a><br>").appendTo(ul);
+							return $("<li>").append("<a style='font-size:100% ;margin-left:0; width:70%'>" + item.title + "<br><a style='font-size:80%;'>Desc:" + item.detail + "</a>" + "</a>").appendTo(ul);
 						};
 						$("#text").focus(function () {
 							$(this).autocomplete("search", "a");
@@ -76,7 +76,7 @@
 								, detail: 'A historic building  on Queen Street'
 					}
 					, {
-								title: 'AUT'
+								title: 'Auckland University of Technology'
 								, location: {
 									lat: -36.9196601
 									, lng: 174.7545022
@@ -297,7 +297,12 @@
 		
 	.map {
 		bottom: 0px;
+<<<<<<< HEAD
 		width: 84%;
+=======
+		width: 74%;
+		height: 100%;
+>>>>>>> parent of 1ba677e... edit searchbox
 		
 		position: relative;
 		right: 0px;
@@ -307,11 +312,15 @@
 		background: #fff;
 		
 		border-radius: 3px;
-		height: 50%;
+		height: 100%;
 		line-height: 35px;
-		padding: 0;
+		padding: 5px 10px 5px 5px;
 		text-align: left;
+<<<<<<< HEAD
 		width: 15%;
+=======
+		width: 25%;
+>>>>>>> parent of 1ba677e... edit searchbox
 	}
 	
 	#pano {
@@ -326,61 +335,6 @@
 		position: relative;
 		margin-left: 10px;
 	}
-	/*.ui-autocomplete {
-  //  position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    float: left;
-    display: none;
-    min-width: 160px;   
-    padding: 4px 0;
-    margin: 0 0 0px 25px;
-    list-style: none;
-    background-color: #ffffff;
-    border-color: #ccc;
-    border-color: rgba(0, 0, 0, 0.2);
-    border-style: solid;
-    border-width: 1px;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    -webkit-background-clip: padding-box;
-    -moz-background-clip: padding;
-    background-clip: padding-box;
-    *border-right-width: 2px;
-    *border-bottom-width: 2px;
-}
-
-.ui-menu-item > a.ui-corner-all {
-    display: block;
-    padding: 3px 15px;
-    clear: both;
-    font-weight: normal;
-    line-height: 18px;
-    color: #555555;
-    white-space: nowrap;
-    text-decoration: none;
-	width:100px;
-}
-	.ui-menu-item-wrapper {
-	position: relative;
-	padding: 0;
-		
-}
-
-.ui-state-hover, .ui-state-active {
-    color: #ffffff;
-    text-decoration: none;
-    background-color: #0088cc;
-    border-radius: 0px;
-    -webkit-border-radius: 0px;
-    -moz-border-radius: 0px;
-    background-image: none;
-}
-*/
+	
 	
 </style>
