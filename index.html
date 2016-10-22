@@ -12,9 +12,11 @@
 	<body>
 		<div class="container">
 			<div class="options-box">
-				<div class="ui-widget">
-					<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> </div>
-				<div id="map" data-bind="text:map"></div>
+				
+					<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> 
+			</div>
+				
+			<div id="map" class="map"></div>
 			</div>
 			<script>
 				$(function () {
@@ -293,12 +295,9 @@
 	}
 	
 	
-	#map {
+	.map {
 		bottom: 0px;
-		width: 80%;
-		height: 100%;
-		
-		position: absolute;
+		width: 85%;
 		right: 0px;
 	}
 	
@@ -306,11 +305,11 @@
 		background: #fff;
 		
 		border-radius: 3px;
-		height: 50%;
+		
 		line-height: 35px;
 		padding: 0;
 		text-align: left;
-		width: 19%;
+		width: 14%;
 	}
 	
 	#pano {
