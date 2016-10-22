@@ -32,7 +32,7 @@
 					};
 					var i, l, obj, matches = [];
 					if (request.term === "") {
-						response([]);
+						response(locations());
 						return;
 					}
 					for (i = 0, l = locations().length; i < l; i++) {
@@ -72,10 +72,10 @@
 					});*/
 					$("#text").focus(function () {
 					//	$(this).trigger('keydown.autocomplete');
-						//$(this).autocomplete('search', $(this).val());
+						$(this).autocomplete("search","a");
 					//	console.log($(this).value);
 						
-					//	$(this).data('ui-autocomplete').search($(this).val());
+						
 					});
 					
 					$("#text").autocomplete( "search", "a" );
