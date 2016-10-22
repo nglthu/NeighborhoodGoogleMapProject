@@ -10,24 +10,14 @@
 <body>
 	<div class="container">
 		<div class="options-box">
-			<!--<select  data-bind="options: locations,
-                 //      optionsText: 'title',
-					   optionsValue:'title',
-                       value: selectedChoice,
-                       optionsCaption: 'All Destinations', event:{change:textSearchPlaces}, valueUpdate:'keyup' " autocomplete="off" size="15"></select>-->
-			<!--value: query, valueUpdate: 'keyup'" autocomplete="off"-->
-			<!--,event: {keypress: enterSearch, select:textSearchPlaces}-->
 			<div class="ui-widget">
-				
 				<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> </div>
 			<div id="map" data-bind="text:map"></div>
 		</div>
 		<script>
 			$(function () {
 				function dataSource(request, response) {
-					
 					function hasMatch(s) {
-					
 						return s.toString().toLowerCase().indexOf(request.term.toLowerCase()) !== -1;
 					};
 					var i, l, obj, matches = [];
@@ -42,8 +32,6 @@
 						}
 					}
 					response(matches);
-				//	return matches;
-					//	console.log(matches);
 				}
 				$(document).ready(function () {
 					$("#text").autocomplete({
@@ -51,106 +39,87 @@
 						, minLength: 0
 						, select: function (event, ui) {
 							$("#text").val(ui.item.title);
-							/*$("#project-id").val(ui.item.value); // is this needed?
-							//$("#project-title").html(ui.item.label);
-							$("#project-description").html(ui.item.desc);
-							$("#project-other").html(ui.item.other);*/
-							//alert('test');
 							textSearchPlaces();
 							return false;
 						}
 					}).data("ui-autocomplete")._renderItem = function (ul, item) {
-						return $("<li>").append("<a style='font-size:100% ;margin-left:0; width:70%'>" + item.title + "<br><a style='font-size:80%;display:table;min-width:50%;width:70%;margin:0'>Desc:" + item.detail + "</a>" + "</a>").appendTo(ul);
+						return $("<li>").append("<a style='font-size:100% ;margin-left:0; width:70%'>" + item.title + "<br><a style='font-size:80%;'>Desc:" + item.detail + "</a>" + "</a>").appendTo(ul);
 					};
-					/*$("#text").focus(function () {
-    				/ $(this).trigger('keydown.autocomplete');
-			         		
-					});*/
-					/*$('#text').click(function () {
-					//	$('#autocomplete').trigger("focus"); //or "click", at least one should work
-						$(this).autocomplete('search', $(this).val());
-					});*/
 					$("#text").focus(function () {
-					//	$(this).trigger('keydown.autocomplete');
-						$(this).autocomplete("search","a");
-					//	console.log($(this).value);
-						
-						
+						$(this).autocomplete("search", "a");
 					});
-					
-					$("#text").autocomplete( "search", "a" );
+					$("#text").autocomplete("search", "a");
 				});
 			});
 			var map;
 			var myViewModel = function () {
-				this.locations = ko.observableArray([
-					{
-						title: 'Subway'
-						, location: {
-							lat: -36.8737632
-							, lng: 174.7936569
-						}
-						, detail: "Eat Fresh"
+					this.locations = ko.observableArray([
+						{
+							title: 'Subway'
+							, location: {
+								lat: -36.8737632
+								, lng: 174.7936569
+							}
+							, detail: "Eat Fresh"
 					}
 
 					, {
-						title: 'Auckland Town Hall'
-						, location: {
-							lat: -36.8530296
-							, lng: 174.7630188
-						}
-						, detail: 'A historic building  on Queen Street'
+							title: 'Auckland Town Hall'
+							, location: {
+								lat: -36.8530296
+								, lng: 174.7630188
+							}
+							, detail: 'A historic building  on Queen Street'
 					}
 					, {
-						title: 'Auckland University of Technology'
-						, location: {
-							lat: -36.9196601
-							, lng: 174.7545022
-						}
-						, detail: 'The University for The Changing World'
+							title: 'Auckland University of Technology'
+							, location: {
+								lat: -36.9196601
+								, lng: 174.7545022
+							}
+							, detail: 'The University for The Changing World'
 					}
 					, {
-						title: 'Central City Library'
-						, location: {
-							lat: -36.851759
-							, lng: 174.7632119
-						}
-						, detail: 'Public Library'
+							title: 'Central City Library'
+							, location: {
+								lat: -36.851759
+								, lng: 174.7632119
+							}
+							, detail: 'Public Library'
 					}
 					, {
-						title: 'Q Theatre'
-						, location: {
-							lat: -36.8533432
-							, lng: 174.7610524
-						}
-						, detail: 'Auckland newest space for the performing arts'
+							title: 'Q Theatre'
+							, location: {
+								lat: -36.8533432
+								, lng: 174.7610524
+							}
+							, detail: 'Auckland newest space for the performing arts'
 					}
 					, {
-						title: 'The Civic'
-						, location: {
-							lat: -36.851036
-							, lng: 174.7617099
-						}
-						, detail: 'First opened on 20 December 1929'
+							title: 'The Civic'
+							, location: {
+								lat: -36.851036
+								, lng: 174.7617099
+							}
+							, detail: 'First opened on 20 December 1929'
 					}
 					, {
-						title: 'Auckland Zoo'
-						, location: {
-							lat: -36.864113
-							, lng: 174.7174963
-						}
-						, detail: '16.35-hectare zoological garden in Auckland'
+							title: 'Auckland Zoo'
+							, location: {
+								lat: -36.864113
+								, lng: 174.7174963
+							}
+							, detail: '16.35-hectare zoological garden in Auckland'
 					}
         ]);
-				this.selectedChoice = ko.observable();
-				this.textSearchPlaces = ko.observable();
-				this.enterSearch = function (d, e) {
-					e.keyCode === 13 && this.textSearchPlaces();
-					//e.keyCode === 40 && this.textSearchPlaces();							
-					return true;
-				};
-			}
-
+					this.selectedChoice = ko.observable();
+					this.textSearchPlaces = ko.observable();
+					this.enterSearch = function (d, e) {
+						e.keyCode === 13 && this.textSearchPlaces();
+						return true;
+					};
+				}
+				//Module google map API
 			function initMap() {
 				map = new google.maps.Map(document.getElementById('map'), {
 					center: {
@@ -178,7 +147,7 @@
 					var marker = addMarker(position, title, map, detail);
 					markers.push(marker);
 					bounds.extend(marker.position);
-					marker.addListener('click', function () {
+					marker.addListener('mouseover', function () {
 						populateInfoWindow(this, largeInfowindow);
 					});
 				}
@@ -197,9 +166,7 @@
 						infowindow.addListener('closeclick', function () {
 							infowindow.marker = null;
 						});
-						/*infowindow.addListener('mouseout', function () {
-							//infowindow.marker = null;
-						});*/
+						
 						var streetViewService = new google.maps.StreetViewService();
 						var radius = 50;
 						// In case the status is OK, which means the pano was found, compute the
@@ -232,6 +199,7 @@
 					//alert('test');
 					var selectedChoice = document.getElementById('text').value;
 					hideMarkers(markers);
+					
 					var marker2 = new google.maps.Marker();
 					marker2.setMap(null);
 					var largeInfowindow = new google.maps.InfoWindow();
