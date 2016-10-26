@@ -7,271 +7,267 @@
 	<script asyn src='https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js'></script>
 	<script asyn src='https://cdnjs.cloudflare.com/ajax/libs/knockout/3.4.0/knockout-min.js'>
 	</script>
+	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> </head>
 
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> 
-    <!--<link rel="stylesheet"ui-lightness href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.7/themes/smoothness/jquery-ui.css.">-->
-	</head>
-	<body>
-		<div class="container">
-			<div class="options-box">
-				
-					<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search :"> 
-			</div>
-				
-			<div id="map" ></div>
-			</div>
-			<script>
-				$(function () {
-					function dataSource(request, response) {
-						function hasMatch(s) {
-							return s.toString().toLowerCase().indexOf(request.term.toLowerCase()) !== -1;
-						};
-						var i, l, obj, matches = [];
-						if (request.term === "") {
-							response(locations());
-							return;
-						}
-						for (i = 0, l = locations().length; i < l; i++) {
-							obj = locations()[i];
-							if (hasMatch(obj.title)) {
-								matches.push(obj);
-							}
-
-						}
-					
-					response(matches);
+<body>
+	<div class="container">
+		<div class="options-box">
+			<button onClick="location.reload();" class="btn"></button>
+			<input id="text" autocomplete="off" data-bind="event: {keypress: enterSearch}" autofocus="autofocus" placeholder="Search:"> </div>
+		<div id="map"></div>
+	</div>
+	<!--search box-->
+	<script>
+		$(function () {
+			function dataSource(request, response) {
+				function hasMatch(s) {
+					return s.toString().toLowerCase().indexOf(request.term.toLowerCase()) !== -1;
+				};
+				var i, l, obj, matches = [];
+				if (request.term === "") {
+					response(locations());
+					return;
 				}
-				$(document).ready(function () {
-					$("#text").autocomplete({
-						source: dataSource
-						, minLength: 0
-						, select: function (event, ui) {
-							$("#text").val(ui.item.title);
-							textSearchPlaces();
-							return false;
-						}
-					}).data("ui-autocomplete")._renderItem = function (ul, item) {
-						return $("<li>").append("<br><a style='font-size:100%'>" + item.title + "<br></a>").appendTo(ul);
-					};
-					$("#text").focus(function () {
-						$(this).autocomplete("search", "a");
-					});
-					$("#text").autocomplete("search", "a");
+				for (i = 0, l = locations().length; i < l; i++) {
+					obj = locations()[i];
+					if (hasMatch(obj.title)) {
+						matches.push(obj);
+					}
+				}
+				response(matches);
+			}
+			$(document).ready(function () {
+				$("#text").autocomplete({
+					source: dataSource
+					, minLength: 0
+					, select: function (event, ui) {
+						$("#text").val(ui.item.title);
+						textSearchPlaces();
+						return false;
+					}
+				}).data("ui-autocomplete")._renderItem = function (ul, item) {
+					return $("<li>").append("<br><a style='font-size:100%'>" + item.title + "<br></a>").appendTo(ul);
+				};
+				$("#text").focus(function () {
+					$(this).autocomplete("search", "");
+					$('.ui-autocomplete-loading').css('width', '14%');
+					$('.ui-autocomplete').css('width', '14%');
 				});
+				$("#text").autocomplete("search", "");
+				$('.ui-autocomplete').css('width', '14%');
 			});
-			var map;
-			var myViewModel = function () {
-					this.locations = ko.observableArray([
-						{
-							title: 'Subway'
-							, location: {
-								lat: -36.8737632
-								, lng: 174.7936569
-							}
-							, detail: "Eat Fresh"
+		});
+		var map;
+		//View model 
+		var myViewModel = function () {
+				this.locations = ko.observableArray([
+					{
+						title: 'Subway'
+						, location: {
+							lat: -36.8737632
+							, lng: 174.7936569
+						}
+						, detail: "Eat Fresh"
 					}
 
 					, {
-							title: 'Auckland Town Hall'
-							, location: {
-								lat: -36.8530296
-								, lng: 174.7630188
-							}
-							, detail: 'A historic building  on Queen Street'
+						title: 'Auckland Town Hall'
+						, location: {
+							lat: -36.8530296
+							, lng: 174.7630188
+						}
+						, detail: 'A historic building  on Queen Street'
 					}
 					, {
-							title: 'AUT'
-							, location: {
-								lat: -36.9196601
-								, lng: 174.7545022
-							}
-							, detail: 'The University for The Changing World'
+						title: 'AUT'
+						, location: {
+							lat: -36.9196601
+							, lng: 174.7545022
+						}
+						, detail: 'The University for The Changing World'
 					}
 					, {
-							title: 'Central City Library'
-							, location: {
-								lat: -36.851759
-								, lng: 174.7632119
-							}
-							, detail: 'Public Library'
+						title: 'Central City Library'
+						, location: {
+							lat: -36.851759
+							, lng: 174.7632119
+						}
+						, detail: 'Public Library'
 					}
 					, {
-							title: 'Q Theatre'
-							, location: {
-								lat: -36.8533432
-								, lng: 174.7610524
-							}
-							, detail: 'Auckland newest space for the performing arts'
+						title: 'Q Theatre'
+						, location: {
+							lat: -36.8533432
+							, lng: 174.7610524
+						}
+						, detail: 'Auckland newest space for the performing arts'
 					}
 					, {
-							title: 'The Civic'
-							, location: {
-								lat: -36.851036
-								, lng: 174.7617099
-							}
-							, detail: 'First opened on 20 December 1929'
+						title: 'The Civic'
+						, location: {
+							lat: -36.851036
+							, lng: 174.7617099
+						}
+						, detail: 'First opened on 20 December 1929'
 					}
 					, {
-							title: 'Auckland Zoo'
-							, location: {
-								lat: -36.864113
-								, lng: 174.7174963
-							}
-							, detail: '16.35-hectare zoological garden in Auckland'
+						title: 'Auckland Zoo'
+						, location: {
+							lat: -36.864113
+							, lng: 174.7174963
+						}
+						, detail: '16.35-hectare zoological garden in Auckland'
 					}
         ]);
-					this.selectedChoice = ko.observable();
-					this.textSearchPlaces = ko.observable();
-					this.enterSearch = function (d, e) {
-						e.keyCode === 13 && this.textSearchPlaces();
-						return true;
-					};
+				this.textSearchPlaces = ko.observable();
+				//when enter, textSearch Places called
+				this.enterSearch = function (d, e) {
+					e.keyCode === 13 && this.textSearchPlaces();
+					return true;
+				};
+			}
+			//Module google map API
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: {
+					lat: -36.85293
+					, lng: 174.7611372
 				}
-				//Module google map API
-			function initMap() {
-				map = new google.maps.Map(document.getElementById('map'), {
-					center: {
-						lat: -36.85293
-						, lng: 174.7611372
-					}
-					, zoom: 13
-					, mapTypeControl: false
-				});
-				var markers = [];
-				var bounds = new google.maps.LatLngBounds();
-				var largeInfowindow = new google.maps.InfoWindow();
-				var addMarker = function (position, title, map, detail) {
+				, zoom: 13
+				, mapTypeControl: false
+			});
+			var markers = [];
+			var bounds = new google.maps.LatLngBounds();
+			var largeInfowindow = new google.maps.InfoWindow();
+			//Marker with its information
+			var addMarker = function (position, title, map, detail) {
 					return new google.maps.Marker({
 						position: position
 						, title: title
 						, detail: detail
 						, map: map
+						, draggable: true
+						, animation: google.maps.Animation.DROP
 					});
 				}
-				for (i = 0; i < this.locations().length; i++) {
-					var position = this.locations()[i].location;
-					var title = this.locations()[i].title;
-					var detail = this.locations()[i].detail;
-					var marker = addMarker(position, title, map, detail);
-					markers.push(marker);
-					bounds.extend(marker.position);
-					marker.addListener('mouseover', function () {
-						populateInfoWindow(this, largeInfowindow);
+				//Marker bouncing when active
+			function markerBouncing(marker) {
+				google.maps.event.addListener(marker, 'mouseover', function () {
+					this.setAnimation(google.maps.Animation.BOUNCE);
+				});
+				google.maps.event.addListener(marker, 'mouseout', function () {
+					this.setAnimation(null);
+				});
+			}
+			for (i = 0; i < this.locations().length; i++) {
+				var position = this.locations()[i].location;
+				var title = this.locations()[i].title;
+				var detail = this.locations()[i].detail;
+				var marker = addMarker(position, title, map, detail);
+				markers.push(marker);
+				bounds.extend(marker.position);
+				marker.addListener('mouseover', function () {
+					populateInfoWindow(this, largeInfowindow);
+				});
+				markerBouncing(marker);
+			}
+			for (i = 0; i < markers.length; i++) {
+				markers[i].setMap(map);
+				bounds.extend(markers[i].position);
+			}
+			//Pop up window info
+			function populateInfoWindow(marker, infowindow) {
+				// Check to make sure the infowindow is not already opened on this marker.
+				if (infowindow.marker != marker) {
+					// Clear the infowindow content to give the streetview time to load.
+					infowindow.setContent('');
+					infowindow.marker = marker;
+					// Make sure the marker property is cleared if the infowindow is closed.
+					infowindow.addListener('closeclick', function () {
+						infowindow.marker = null;
 					});
+					var streetViewService = new google.maps.StreetViewService();
+					var radius = 50;
+					// In case the status is OK, which means the pano was found, compute the
+					// position of the streetview image, then calculate the heading, then get a
+					// panorama from that and set the options
+					function getStreetView(data, status) {
+						if (status == google.maps.StreetViewStatus.OK) {
+							var nearStreetViewLocation = data.location.latLng;
+							var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
+							infowindow.setContent('<div><strong>' + marker.title + '</strong></div><div>' + marker.detail + '</div><div id="pano"></div>');
+							var panoramaOptions = {
+								position: nearStreetViewLocation
+								, pov: {
+									heading: heading
+									, pitch: 30
+								}
+							};
+							var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
+						}
+						else {
+							infowindow.setContent('<div>' + marker.title + '</div>' + '<div>No Street View Found</div>');
+						}
+					}
+					streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
+					// Open the infowindow on the correct marker.
+					infowindow.open(map, marker);
 				}
-				for (i = 0; i < markers.length; i++) {
-					markers[i].setMap(map);
-					bounds.extend(markers[i].position);
-				}
-
-				function populateInfoWindow(marker, infowindow) {
-					// Check to make sure the infowindow is not already opened on this marker.
-					if (infowindow.marker != marker) {
-						// Clear the infowindow content to give the streetview time to load.
-						infowindow.setContent('');
-						infowindow.marker = marker;
-						// Make sure the marker property is cleared if the infowindow is closed.
-						infowindow.addListener('closeclick', function () {
-							infowindow.marker = null;
+			}
+			//when mapping with text search result
+			this.textSearchPlaces = function (event) {
+				//alert('test');
+				var selectedChoice = document.getElementById('text').value;
+				hideMarkers(markers);
+				var marker2 = new google.maps.Marker();
+				marker2.setMap(null);
+				var largeInfowindow = new google.maps.InfoWindow();
+				var bounds = new google.maps.LatLngBounds()
+				for (var i = 0; i < locations().length; i++) {
+					if (locations()[i].title.toLowerCase() == selectedChoice.toLowerCase()) {
+						var position = locations()[i].location;
+						var title = locations()[i].title;
+						var detail = locations()[i].detail;
+						console.log("Positon:" + position);
+						console.log("title" + title);
+						//createMarkersForPlaces(locations()[i]);
+						marker2 = addMarker(position, title, map, detail);
+						bounds.extend(marker2.position);
+						markers.push(marker2);
+						map.setCenter(bounds.getCenter());
+						map.fitBounds(bounds);
+						var listener = google.maps.event.addListener(map, "idle", function () {
+							if (map.getZoom() > 15) map.setZoom(16);
+							google.maps.event.removeListener(listener);
 						});
-						
-						var streetViewService = new google.maps.StreetViewService();
-						var radius = 50;
-						// In case the status is OK, which means the pano was found, compute the
-						// position of the streetview image, then calculate the heading, then get a
-						// panorama from that and set the options
-						function getStreetView(data, status) {
-							if (status == google.maps.StreetViewStatus.OK) {
-								var nearStreetViewLocation = data.location.latLng;
-								var heading = google.maps.geometry.spherical.computeHeading(nearStreetViewLocation, marker.position);
-								infowindow.setContent('<div><strong>' + marker.title + '</strong></div><div>' + marker.detail + '</div><div id="pano"></div>');
-								var panoramaOptions = {
-									position: nearStreetViewLocation
-									, pov: {
-										heading: heading
-										, pitch: 30
-									}
-								};
-								var panorama = new google.maps.StreetViewPanorama(document.getElementById('pano'), panoramaOptions);
-							}
-							else {
-								infowindow.setContent('<div>' + marker.title + '</div>' + '<div>No Street View Found</div>');
-							}
-						}
-						streetViewService.getPanoramaByLocation(marker.position, radius, getStreetView);
-						// Open the infowindow on the correct marker.
-						infowindow.open(map, marker);
-					}
-				}
-				this.textSearchPlaces = function (event) {
-					//alert('test');
-					var selectedChoice = document.getElementById('text').value;
-					hideMarkers(markers);
-					
-					var marker2 = new google.maps.Marker();
-					marker2.setMap(null);
-					var largeInfowindow = new google.maps.InfoWindow();
-					var bounds = new google.maps.LatLngBounds()
-					for (var i = 0; i < locations().length; i++) {
-						//	marker2.setMap('null');
-						//InfoWindow.close();
-						/*if (locations()[i].title == selectedChoice()) {*/
-						if (locations()[i].title.toLowerCase() == selectedChoice.toLowerCase()) {
-							var position = locations()[i].location;
-							var title = locations()[i].title;
-							var detail = locations()[i].detail;
-							console.log("Positon:" + position);
-							console.log("title" + title);
-							//createMarkersForPlaces(locations()[i]);
-							marker2 = addMarker(position, title, map, detail);
-							//populateInfoWindow(this, largeInfowindow);
-							bounds.extend(marker2.position);
-							/*}, new google.maps.LatLngBounds());*/
-							markers.push(marker2);
-							map.setCenter(bounds.getCenter());
-							map.fitBounds(bounds);
-							var listener = google.maps.event.addListener(map, "idle", function () {
-								if (map.getZoom() > 15) map.setZoom(16);
-								google.maps.event.removeListener(listener);
-							});
-							//alert('test');
-							marker2.setMap(map);
-							populateInfoWindow(marker2, largeInfowindow);
-						}
-					}
-					/*marker2.addListener('mouseover', function () {
-					//	populateInfoWindow(this, largeInfowindow);
-					});*/
-					//	console.log(marker2.position);
-					//	marker2.setMap(map);
-					/*var bounds = markers.reduce(function (bounds, marker) {*/
-				}
-
-				function createMarkersForPlaces(places) {
-					var bounds = new google.maps.LatLngBounds();
-					// Create a marker for each place.
-					var marker = new google.maps.Marker({
-						map: map
-						, title: places.title
-						, position: places.location
-					});
-					// If a marker is clicked, do a place details search on it in the next function.
-					map.fitBounds(bounds);
-				}
-
-				function hideMarkers(markers) {
-					for (var i = 0; i < markers.length; i++) {
-						markers[i].setMap(null);
+						markerBouncing(marker2);
+						//alert('test');
+						marker2.setMap(map);
+						populateInfoWindow(marker2, largeInfowindow);
 					}
 				}
 			}
-			//ko.applyBindings(myModel);
-			/*myViewModel.selectionChanged=ko.dependentObservable(function(event){
-				alert("test");
-			});*/
-			ko.applyBindings(myViewModel);
-			//jquery
-		</script>
+
+			function createMarkersForPlaces(places) {
+				var bounds = new google.maps.LatLngBounds();
+				// Create a marker for each place.
+				var marker = new google.maps.Marker({
+					map: map
+					, title: places.title
+					, position: places.location
+				});
+				// If a marker is clicked, do a place details search on it in the next function.
+				map.fitBounds(bounds);
+			}
+
+			function hideMarkers(markers) {
+				for (var i = 0; i < markers.length; i++) {
+					markers[i].setMap(null);
+				}
+			}
+		}
+		ko.applyBindings(myViewModel);
+	</script>
 </body>
 <script async defer src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBnaS5G8LBLYT0EqlZTIH7k3EHXK1GcPd8&v=3&callback=initMap">
 </script>
@@ -289,28 +285,15 @@
 	.container {
 		width: 100%;
 		height: 100%;
-		position:absolute;
-		
+		position: absolute;
 	}
 	
 	input {
 		width: 100%;
 		height: 48px;
-		background:url(image/search3.png) no-repeat right center;
-		 background-size: 40px 40px;
-
+		background: url(image/search2.gif) no-repeat right center;
+		background-size: 40px 40px;
 	}
-
-		
-	/*#map {
-	//	bottom: 0px;
-
-		width: 84%;
-
-		height: 100%;
-
-		position: relative;
-	}*/
 	
 	h1 {
 		color: #525454;
@@ -318,7 +301,6 @@
 		margin: 0 0 10px 0;
 		text-align: center;
 	}
-	
 	
 	hr {
 		background: #D0D7D9;
@@ -331,9 +313,7 @@
 		bottom: 0px;
 		width: 85%;
 		height: 100%;
-		/*left: 362px;*/
 		position: absolute;
-
 		right: 0px;
 	}
 	
@@ -345,9 +325,7 @@
 		line-height: 35px;
 		padding: 5px;
 		text-align: left;
-
 		width: 14%;
-
 	}
 	
 	#pano {
@@ -363,5 +341,18 @@
 		width: 27%;
 		position: relative;
 		margin-left: 10px;
+	}
+	
+	.btn {
+		border: none;
+		font-family: Arial;
+		color: #ffffff;
+		font-size: 14px;
+		text-decoration: none;
+		background: url(image/home.png) no-repeat left center;
+		background-size: 50px 50px;
+		width: 100%;
+		height: 15%;
+		cursor: pointer;
 	}
 </style>
